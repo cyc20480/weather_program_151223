@@ -9,6 +9,9 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
+import time
+import threading
+
 form_class = uic.loadUiType("ui/weatherUi.ui")[0]  # UI 불러오기
 
 class WeatherWindow(QMainWindow, form_class):
@@ -22,6 +25,7 @@ class WeatherWindow(QMainWindow, form_class):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)  # 윈도우를 항상 위로 유지
 
         self.weather_btn.clicked.connect(self.request_weather)  # 날씨조회 버튼 클릭->함수 연결
+        self.weather_btn.clicked.connect(self.reflashTimer)  # 날씨조회 버튼 클릭->함수 연결
 
     def request_weather(self):
         weather_area = self.input_area.text()  # 프로그램 내 날씨입력창에서 입력된 지역이름 가져오기
@@ -137,6 +141,10 @@ class WeatherWindow(QMainWindow, form_class):
         else:
             self.weather_image.setText(weatherText)
 
+    def reflashTimer(self):
+        self.request_weather()  # 날씨 조회 함수 호출
+        threading.Timer(30, self.reflashTimer).start()
+        print("타이머 호출 확인")
 
 
 
