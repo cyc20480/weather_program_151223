@@ -5,7 +5,6 @@ from urllib.request import Request, urlopen
 from urllib.parse import quote  # utf-8
 
 class NaverApi:
-
     def getRequestUrl(self, url):
         requestUrl = Request(url)
 
@@ -23,4 +22,20 @@ class NaverApi:
                 return None
         except Exception as e:
             print(f"에러 발생 : {e}")
+            return None
+
+    def naverSearch(self, node, searchKeyword, start, display):
+        baseUrl = "https://openapi.naver.com/v1/search"  # 기본 url
+        node = f"/{node}.json"
+        params = f"?query={quote(searchKeyword)}&start={start}&display={display}"
+
+        url = baseUrl+node+params  # 네이버에 요청할 전체 url
+
+        resultData = self.getRequestUrl(url)
+        # 만들어진 전체 url을 인수로 getRequestUrl함수를 호출하면 결과 도착
+
+        if resultData != None:  # 조건이 참이면 정상 응답 받음
+            return json.loads(resultData)  # json 형태로 변환하여 반환
+        else:
+            print("네이버 응답 실패!!")
             return None
