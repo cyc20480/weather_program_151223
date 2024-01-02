@@ -19,6 +19,7 @@ class NaverAppWin(QMainWindow, form_class):
         self.statusBar().showMessage("Naver News Application v1.0")
 
         self.searchBtn.clicked.connect(self.searchBtnclicked)
+        self.result_table.doubleClicked.connect(self.resultDoubleClicked)
 
     def searchBtnclicked(self):
         searchKeyword = self.input_keyword.text() # 입력 Keyword 가져옴
@@ -31,6 +32,12 @@ class NaverAppWin(QMainWindow, form_class):
         items = searchResult['items']
         self.outputResult(items)
 
+    def resultDoubleClicked(self): # Table내 검색 걀과 Double Click시 호출
+        selectRowNum = self.result_table.currentRow() # 현재 선택된 행 번호 반횐
+        newsUrl = self.result_table.item(selectRowNum,1).text() #기사중 Link 만 추출
+        # print(newsUrl)
+        webbrowser.open(newsUrl)
+
     def outputResult(self,items):
         self.result_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.result_table.setColumnCount(2) # 출력 Table 의 열 갯수
@@ -38,6 +45,7 @@ class NaverAppWin(QMainWindow, form_class):
         self.result_table.setHorizontalHeaderLabels(['기사 제목','기사 링크'])
         self.result_table.setColumnWidth(0,400) # 첫 열의 넙이
         self.result_table.setColumnWidth(1, 221) # 두번째 열의 넙이
+        self.result_table.setEditTriggers(QAbstractItemView.NoEditTriggers) # Table 내용수정금지
 
         for i, news in enumerate(items):    # item 과index를 같이 뺀다
             newsTitle = self.clearTitle(news['title'])
