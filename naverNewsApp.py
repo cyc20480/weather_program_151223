@@ -19,6 +19,7 @@ class NaverAppWin(QMainWindow, form_class):
         self.statusBar().showMessage("Naver News Application v1.0")
 
         self.searchBtn.clicked.connect(self.searchBtnclicked)
+        self.input_keyword.returnPressed.connect(self.searchBtnclicked)
         self.result_table.doubleClicked.connect(self.resultDoubleClicked)
 
     def searchBtnclicked(self):
