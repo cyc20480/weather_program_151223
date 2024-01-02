@@ -19,19 +19,22 @@ class NaverAppWin(QMainWindow, form_class):
         self.statusBar().showMessage("Naver News Application v1.0")
 
         self.searchBtn.clicked.connect(self.searchBtnclicked)
-        self.input_keyword.returnPressed.connect(self.searchBtnclicked)
+        self.input_keyword.returnPressed.connect(self.searchBtnclicked) # Enter 쳐도 Button Click 과 동일하게 작동
         self.result_table.doubleClicked.connect(self.resultDoubleClicked)
 
     def searchBtnclicked(self):
         searchKeyword = self.input_keyword.text() # 입력 Keyword 가져옴
+        if searchKeyword == '' : #검색어를 입력하디 않았을때
+            QMessageBox.warning(self,'경고!!!','검색어를 입력해 주세요!!!')
+        else :
 
-        naverApi = NaverApi() # Naver Api class 생성
-        searchResult = naverApi.naverSearch("news", searchKeyword, 1, 50)
-        # print(searchResult)
+            naverApi = NaverApi() # Naver Api class 생성
+            searchResult = naverApi.naverSearch("news", searchKeyword, 1, 50)
+            # print(searchResult)
 
-        #QTableWidget ( result_table ) 에 결과 Display (items만)
-        items = searchResult['items']
-        self.outputResult(items)
+            #QTableWidget ( result_table ) 에 결과 Display (items만)
+            items = searchResult['items']
+            self.outputResult(items)
 
     def resultDoubleClicked(self): # Table내 검색 걀과 Double Click시 호출
         selectRowNum = self.result_table.currentRow() # 현재 선택된 행 번호 반횐
