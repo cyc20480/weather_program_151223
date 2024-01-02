@@ -59,7 +59,7 @@
      <string notr="true">border:1px solid rgb(55, 111, 166);</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="searchBtn">
     <property name="geometry">
      <rect>
       <x>549</x>
